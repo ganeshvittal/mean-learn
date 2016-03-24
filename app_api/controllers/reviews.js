@@ -37,11 +37,13 @@ updateAverageRating = function (locationid) {
         });
 };
 doAddReview = function (req, res, location) {
+
     if (!location) {
         sendJsonResponse(res, 404, {
             "message": "locationid not found"
         });
     } else {
+
         location.reviews.push({
             author: req.body.author,
             rating: req.body.rating,
@@ -49,13 +51,14 @@ doAddReview = function (req, res, location) {
         });
 
         location.save(function (err, location) {
+
             var thisReview;
             if (err) {
-                sendJsonResponse(res, 404, err);
+                sendJsonResponse(res, 400, err);
             } else {
                 updateAverageRating(location._id);
                 thisReview = location.reviews[location.reviews.length - 1];
-                sendJsonResponse(res, 200, thisreview);
+                sendJsonResponse(res, 200, thisReview);
             }
         });
     }
@@ -63,10 +66,12 @@ doAddReview = function (req, res, location) {
 
 module.exports.reviewsCreate = function (req, res) {
     var locationid = req.params.locationid;
+
     if (locationid) {
         loc.findById(locationid)
             .select('reviews')
             .exec(function (err, location) {
+
                 if (err) {
                     sendJsonResponse(res, 404, err);
                 } else {

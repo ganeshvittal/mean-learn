@@ -47,7 +47,6 @@ module.exports.locationsListByDistance = function (req, res) {
             sendJsonResponse(res, 404, err);
             return;
         } else {
-            console.log('number of results - ' + results.length);
             results.forEach(function (doc) {
                 locations.push({
                     distance: theEarth.getDistanceFromRads(doc.dis),
